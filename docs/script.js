@@ -39,4 +39,14 @@ async function getVedurData() {
 console.log(getVedurData());
 */
 
-fetch("https://xmlweather.vedur.is/?op_w=xml&type=forec&lang=is&view=xml&ids=1");
+async function getVedurData() {
+  try {
+    fetch("https://xmlweather.vedur.is/?op_w=xml&type=forec&lang=is&view=xml&ids=1");
+  } catch (error) {
+    console.error("Error: ", error);
+  }
+}
+
+if (getVedurData()) {
+  console.log("Virkaði");
+}
