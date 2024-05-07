@@ -39,9 +39,12 @@ async function getVedurData() {
 console.log(getVedurData());
 */
 
-async function getVedurData() {
+/*async function getVedurData() {
   try {
-    fetch("https://xmlweather.vedur.is/?op_w=xml&type=forec&lang=is&view=xml&ids=1");
+    let response = fetch("https://xmlweather.vedur.is/?op_w=xml&type=forec&lang=is&view=xml&ids=1", {
+      method: "GET",
+      headers: { "Content-Type": "application/xml" }
+    });
   } catch (error) {
     console.error("Error: ", error);
   }
@@ -49,4 +52,14 @@ async function getVedurData() {
 
 if (getVedurData()) {
   console.log("Virkaði");
-}
+}*/
+
+fetch("https://xmlweather.vedur.is/?op_w=xml&type=forec&lang=is&view=xml&ids=1")
+  .then(response => response.text())
+  .then(data => {
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(data, "application/xml");
+    console.log(xml);
+  })
+  .catch(console.error);
+
