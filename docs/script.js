@@ -52,7 +52,10 @@ async function getVedurData() {
     console.error("Error: ", error);
   }
 }
+
 getVedurData();
+
+
 /*
 fetch("https://xmlweather.vedur.is/?op_w=xml&type=forec&lang=is&view=xml&ids=1")
   .then(response => response.text())
