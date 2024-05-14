@@ -1,5 +1,3 @@
-console.log("Script loaded");
-
 // Reyndi að sækja gögn frá veðurstofunni en fékk tómt JSON
 // (Sækja þarf "CAP message identifier" áður en hægt er að sækja rétt gögn)
 /*
@@ -79,7 +77,7 @@ async function getVedurData(dagsetning) {
         selectedTimi = spaDagsTimar.reduce((prev, curr) => {
           return Math.abs(new Date(curr) - nuverandiTimi) < Math.abs(new Date(prev) - nuverandiTimi) ? curr : prev;
         });
-        console.log("Næsti tími:", selectedTimi);
+        console.log(selectedTimi);
   
         
         stadur.forecast.forEach(element => {
@@ -101,11 +99,49 @@ async function getVedurData(dagsetning) {
 }
 getVedurData(selectedTimi);
 
-setTimeout(function() {
+/*setTimeout(function() {
   console.log("Delayed message after 5000 milliseconds");
 }, 5000);
 
-getVedurData();
+getVedurData();*/
+
+// ----- Touch -----
+let xDown = null;
+let yDown = null;
+
+timaTexti.addEventListener('touchstart', handleTouchStart, false);
+timaTexti.addEventListener('touchmove', handleTouchMove, false);
+
+function handleTouchStart(evt) {
+  const firstTouch = evt.touches[0];
+  xDown = firstTouch.clientX;
+  yDown = firstTouch.clientY;
+};
+
+function handleTouchMove(evt) {
+  if (!xDown || !yDown) {
+    return;
+  }
+
+  let xUp = evt.touches[0].clientX;
+  let yUp = evt.touches[0].clientY;
+
+  let xDiff = xDown - xUp;
+  let yDiff = yDown - yUp;
+
+  if (Math.abs(xDiff) > Math.abs(yDiff)) {
+    if (xDiff > 0) {
+      console.log('Left swipe');
+    } else {
+      console.log('Right swipe');
+    }
+  }
+
+  xDown = null;
+  yDown = null;
+};
+// ----- Touch -----
+
 
 // ----- Sól -----
 const rays = document.getElementsByClassName("rays")[0];
@@ -132,15 +168,15 @@ anime({
   targets: ".ray",
   //rotateZ: 360,
   keyframes: [
-    {scaleY: 1.2},
+    {scaleY: 1.4},
     {scaleY: 1},
-    {scaleY: 1.2},
+    {scaleY: 1.4},
     {scaleY: 1},
-    {scaleY: 1.2},
+    {scaleY: 1.4},
     {scaleY: 1},
-    {scaleY: 1.2},
+    {scaleY: 1.4},
     {scaleY: 1},
-    {scaleY: 1.2},
+    {scaleY: 1.4},
     {scaleY: 1}
   ],
   //translateY: 5,
