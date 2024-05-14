@@ -1,3 +1,46 @@
-body {
-  background: blue !important;
+html, body {
+  width: 100%;
+  height: 100%;
+  background: white;
+}
+.wrapper {
+  border-radius: 50%;
+  background-color: skyblue;
+  height: 40vh;
+  width: 95vw;
+}
+.sky1 {
+  position: absolute;
+  background-color: grey;
+  width: 150px;
+  height: 80px;
+  border-radius: 50%;
+}
+.sol {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items:center;
+}
+.sun-body {
+  margin-left: 25%;
+  width: 90px;
+  height: 90px;
+  background-color: gold;
+  transform: translate(48px, 16px);
+  border-radius: 50%;
+  overflow: hidden;
+}
+.ray {
+  position: absolute;
+  width: 8px;
+  height: 30px;
+  background-color: goldenrod;
+  border-radius: 5px;
+  /*rotate: 90deg;*/
+  /*transform: translateY(45px);*/
+  /*transform-origin: 4px 80px;*/
+}
+.rays {
+  transform-origin: 4px 16px;
 }
