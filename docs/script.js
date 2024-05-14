@@ -46,81 +46,71 @@ getVedurData();
 */
 
 
+
 // Nota tilbúin JSON gögn fyrir veður
 let timi = new Date().toLocaleTimeString();
-let nuverandiTimi = new Date(`2013-09-17T${timi}`); // Gefum okkur að nuverandiTimiinn í dag sé 17/09/2013
+let nuverandiTimi = new Date(`2013-09-18T${timi}`); // Gefum okkur að nuverandiTimiinn í dag sé 17/09/2013
 
-async function getVedurData() {
+let selectedTimi = 0; // Spátími sem er næstur núverandi tíma
+
+let timaTexti = document.getElementById('timi');
+let hitastigsTexti = document.getElementById('hitastig');
+let vindsTexti = document.getElementById('vindur');
+let skyjaTexti = document.getElementById('sky');
+
+async function getVedurData(dagsetning) {
   let response = await fetch("./data.json")
   let json = await response.json();
 
   // !!! Þarf að implement-a Geolocation API !!!
+  // !!! Virkar því aðeins með Reykjavík eins og er !!!
   json['results'].forEach(stadur => {
     if(stadur.name === "Reykjavík") {
       spaDagsTimar = [];
 
-      stadur.forecast.forEach(spa => {
-        spaTimi = new Date(spa.ftime);
-        if (spaTimi.toLocaleDateString() == nuverandiTimi.toLocaleDateString()) {
-          spaDagsTimar.push(spaTimi);
-        }
-      });
+      if (dagsetning === 0) {
+        stadur.forecast.forEach(spa => {
+          spaTimi = new Date(spa.ftime);
+          if (spaTimi.toLocaleDateString() == nuverandiTimi.toLocaleDateString()) {
+            spaDagsTimar.push(spaTimi);
+          }
+        });
+  
+        selectedTimi = spaDagsTimar.reduce((prev, curr) => {
+          return Math.abs(new Date(curr) - nuverandiTimi) < Math.abs(new Date(prev) - nuverandiTimi) ? curr : prev;
+        });
+        console.log("Næsti tími:", selectedTimi);
+  
+        
+        stadur.forecast.forEach(element => {
+          if (new Date(element.ftime).getTime() === selectedTimi.getTime()) {
+            console.log("Hitastig: " + element['T']); // Hitastig (°C)
+            console.log("Vindhraði: " + element['F']); // Vindhraði (m/s)
+            console.log("Skýjahula: " + element['N']); // Skýjahula (%)
+            //timaTexti.innerText = "Tími: " + selectedTimi.getHours();
+            timaTexti.innerText = new Date(element.ftime).getHours();
+            hitastigsTexti.innerText = `Hitastig: ${element['T']}°C`;
+            vindsTexti.innerText = `Vindhraði: ${element['F']}m/s`;
+            skyjaTexti.innerText = `Skýjahula: ${element['N']}%`;
+          }
+        });
 
-      console.log(mismunurTima);
+      }
     }
   });
 }
+getVedurData(selectedTimi);
+
+setTimeout(function() {
+  console.log("Delayed message after 5000 milliseconds");
+}, 5000);
+
 getVedurData();
 
-//getVedurData().then(json => console.log(json));
-
-
-
-//import anime from 'animejs/lib/anime.es.js';
-
+// ----- Sól -----
 const rays = document.getElementsByClassName("rays")[0];
 const rayArray = Array.from(document.getElementsByClassName('ray'));
 
-/*
-const baseX = 0;
-const baseY = 0;
-let x = 0;
-let y = 0;
-let radianMultiplicationFactor = 0;
-rays.forEach(element => {
-  if (radianMultiplicationFactor != 6) {
-    if (radianMultiplicationFactor > 0) {
-      radianMultiplicationFactor *= -1;
-    } else if (radianMultiplicationFactor < 0) {
-      radianMultiplicationFactor *= -1;
-      radianMultiplicationFactor++;
-    }
-  }
-});*/
-
-/*anime({
-  targets: '.square',
-  translateX: 250,
-  rotateZ: 360,
-  scale: 3,
-  duration: 2000,
-  easing: 'linear',
-  direction: 'alternate',
-  loop: true
-})*/
-/*anime({
-  targets: '.square',
-  keyframes: [
-    {translateX: 250, scale: 1},
-    {translateY: 50, scale: 1.5},
-    {translateX: -250, scale: 2},
-    {translateY: -50, scale: 2.5}
-  ],
-  duration: 3000,
-  loop: true
-});*/
-
-// ----- Sól -----
 let stor = true;
 let i = 0;
 rayArray.forEach((ray, index) => {
@@ -167,6 +157,47 @@ anime({
   loop: true
 })
 // ----- Sól -----
+
+
+
+/*
+const baseX = 0;
+const baseY = 0;
+let x = 0;
+let y = 0;
+let radianMultiplicationFactor = 0;
+rays.forEach(element => {
+  if (radianMultiplicationFactor != 6) {
+    if (radianMultiplicationFactor > 0) {
+      radianMultiplicationFactor *= -1;
+    } else if (radianMultiplicationFactor < 0) {
+      radianMultiplicationFactor *= -1;
+      radianMultiplicationFactor++;
+    }
+  }
+});*/
+
+/*anime({
+  targets: '.square',
+  translateX: 250,
+  rotateZ: 360,
+  scale: 3,
+  duration: 2000,
+  easing: 'linear',
+  direction: 'alternate',
+  loop: true
+})*/
+/*anime({
+  targets: '.square',
+  keyframes: [
+    {translateX: 250, scale: 1},
+    {translateY: 50, scale: 1.5},
+    {translateX: -250, scale: 2},
+    {translateY: -50, scale: 2.5}
+  ],
+  duration: 3000,
+  loop: true
+});*/
 
 /*rays.forEach((ray, index) => {
   const angle = index * (360 / rays.length);
