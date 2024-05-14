@@ -93,6 +93,19 @@ async function getVedurData(dagsetning) {
           }
         });
 
+      } else {
+        stadur.forecast.forEach(element => {
+          if (new Date(element.ftime).getTime() === selectedTimi.getTime()) {
+            console.log("Hitastig: " + element['T']); // Hitastig (°C)
+            console.log("Vindhraði: " + element['F']); // Vindhraði (m/s)
+            console.log("Skýjahula: " + element['N']); // Skýjahula (%)
+            //timaTexti.innerText = "Tími: " + selectedTimi.getHours();
+            timaTexti.innerText = new Date(element.ftime).getHours();
+            hitastigsTexti.innerText = `Hitastig: ${element['T']}°C`;
+            vindsTexti.innerText = `Vindhraði: ${element['F']}m/s`;
+            skyjaTexti.innerText = `Skýjahula: ${element['N']}%`;
+          }
+        });
       }
     }
   });
@@ -126,14 +139,24 @@ function handleTouchMove(evt) {
   let xUp = evt.touches[0].clientX;
   let yUp = evt.touches[0].clientY;
 
-  let xDiff = xDown - xUp;
-  let yDiff = yDown - yUp;
+  let xMismunur = xDown - xUp;
+  let yMismunur = yDown - yUp;
 
-  if (Math.abs(xDiff) > Math.abs(yDiff)) {
-    if (xDiff > 0) {
-      console.log('Left swipe');
+  if (Math.abs(xMismunur) > Math.abs(yMismunur)) {
+    if (xMismunur > 0) {
+      if (selectedTimi.getHours() !== 21) {
+        console.log('Left swipe');
+        selectedTimi.setHours(selectedTimi.getHours() + 3);
+        console.log(selectedTimi.getHours())
+        getVedurData(selectedTimi);
+      }
     } else {
-      console.log('Right swipe');
+      if (selectedTimi.getHours() !== 0) {
+        console.log('Right swipe');
+        selectedTimi.setHours(selectedTimi.getHours() - 3);
+        console.log(selectedTimi.getHours());
+        getVedurData(selectedTimi);
+      }
     }
   }
 
