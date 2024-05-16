@@ -46,6 +46,7 @@ getVedurData();
 
 
 // Nota tilbúin JSON gögn fyrir veður
+
 let timi = new Date().toLocaleTimeString();
 let nuverandiTimi = new Date(`2013-09-18T${timi}`); // Gefum okkur að nuverandiTimiinn í dag sé 17/09/2013
 
@@ -55,6 +56,17 @@ let timaTexti = document.getElementById('timi');
 let hitastigsTexti = document.getElementById('hitastig');
 let vindsTexti = document.getElementById('vindur');
 let skyjaTexti = document.getElementById('sky');
+
+const liturHimins = {
+  0: "",
+  3: "",
+  6: "",
+  9: "",
+  12: "",
+  15: "",
+  18: "",
+  21: ""
+}
 
 async function getVedurData(dagsetning) {
   let response = await fetch("./data.json")
@@ -117,6 +129,7 @@ getVedurData(selectedTimi);
 }, 5000);
 
 getVedurData();*/
+
 
 // ----- Touch -----
 let xDown = null;
@@ -187,7 +200,7 @@ rayArray.forEach((ray, index) => {
   i++;
 });
 
-anime({
+/*anime({
   targets: ".ray",
   //rotateZ: 360,
   keyframes: [
@@ -210,11 +223,11 @@ anime({
 })
 anime({
   targets: ".rays",
-  //rotateZ: 360,
-  duration: 10000,
+  rotate: 360,
+  duration: 40000,
   easing: "linear",
   loop: true
-})
+})*/
 // ----- Sól -----
 
 
