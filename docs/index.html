@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html lang="is">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,17 +11,24 @@
   <title>Verkefni 6</title>
 </head>
 <body>
-  <div class="wrapper">
+  <div id="wrapper">
     <!--div style="display: flex;"-->
-      <!--div class="sky"-->
+      <div id="sky-top">
         <div class="sky1"></div>
         <div class="sky2"></div>
         <div class="sky3"></div>
         <div class="sky4"></div>
-      <!--/div-->
-      <div class="sol">
-        <div class="sun-body"></div>
-        <div class="rays">
+        <div class="sky5"></div>
+        <div class="sky6"></div>
+        <div class="sky7"></div>
+        <div class="sky8"></div>
+      </div>
+      <div id="mani">
+        <div id="shading"></div>
+      </div>
+      <div id="sol">
+        <div id="sun-body"></div>
+        <div id="rays">
           <div class="ray"></div>
           <div class="ray"></div>
           <div class="ray"></div>
@@ -37,12 +45,23 @@
       </div>
     <!--/div-->
   </div>
-  <p id="timi"></p>
-  <span id="hitastig">a</span>
+  <div id="timaRammi">
+    <span id="timi"></span>
+    <span id="sliderLeft"><<</span>
+    <span id="sliderRight">>></span>
+  </div>
   <br>
-  <span id="vindur">a</span>
+  <div id="flik">
+  </div>
+  <p id="flikLysing"></p>
   <br>
-  <span id="sky"></span>
+  <div id="data">
+    <span id="hitastig"></span>
+    <br>
+    <span id="vindur"></span>
+    <br>
+    <span id="sky"></span>
+  </div>
   <!--script src="../node_modules/animejs/lib/anime.min.js"></script-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
   <script src="script.js"></script>

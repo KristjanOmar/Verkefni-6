@@ -57,15 +57,75 @@ let hitastigsTexti = document.getElementById('hitastig');
 let vindsTexti = document.getElementById('vindur');
 let skyjaTexti = document.getElementById('sky');
 
-const liturHimins = {
-  0: "",
-  3: "",
-  6: "",
-  9: "",
-  12: "",
-  15: "",
-  18: "",
-  21: ""
+const timar = {
+  0: {
+    "liturHimins": "#104b63",
+    "solarStada": 80,
+    "manaStada": 0
+  },
+  3: {
+    "liturHimins": "#104b63",
+    "solarStada": 80,
+    "manaStada": 0
+  },
+  6: {
+    "liturHimins": "#166484",
+    "solarStada": 80,
+    "manaStada": 25
+  },
+  9: {
+    "liturHimins": "#24a4d8",
+    "solarStada": 25,
+    "manaStada": 80
+  },
+  12: {
+    "liturHimins": "#87ceeb",
+    "solarStada": 0,
+    "manaStada": 80
+  },
+  15: {
+    "liturHimins": "#87ceeb",
+    "solarStada": 0,
+    "manaStada": 80
+  },
+  18: {
+    "liturHimins": "#24a4d8",
+    "solarStada": 25,
+    "manaStada": 80
+  },
+  21: {
+    "liturHimins": "#166484",
+    "solarStada": 80,
+    "manaStada": 25
+  },
+}
+
+function update(klukkan) {
+  document.getElementById('wrapper').style.backgroundColor = klukkan["liturHimins"];
+  document.getElementById('sol').style.transform = `translateY(${klukkan["solarStada"]}vw)`;
+  document.getElementById('mani').style.transform = `translateY(${klukkan["manaStada"]}vw)`;
+}
+
+const flikLysing = document.getElementById('flikLysing');
+
+function veljaFlik(hitastig, vindhradi) {
+  if (hitastig < -5) {
+    flikLysing.innerText = "Ískalt: Dúnúlpa, trefill, vettlingar/hanskar, húfa";
+  } else if (hitastig < 4) {
+    if (vindhradi > 20) {
+      flikLysing.innerText = "Kalt og mikið rok: Úlpa, trefill, vettlingar/hanskar";
+    } else {
+      flikLysing.innerText = "Kalt: Úlpa";
+    }
+  } else if (hitastig < 9) {
+    if (vindhradi > 20) {
+      flikLysing.innerText = "Rok: Léttur jakki";
+    } else {
+      flikLysing.innerText = "Svalt: Léttur jakki eða peysa";
+    }
+  } else {
+    flikLysing.innerText = "Hlýtt: Léttur jakki eða peysa/bolur";
+  }
 }
 
 async function getVedurData(dagsetning) {
@@ -97,11 +157,13 @@ async function getVedurData(dagsetning) {
             console.log("Hitastig: " + element['T']); // Hitastig (°C)
             console.log("Vindhraði: " + element['F']); // Vindhraði (m/s)
             console.log("Skýjahula: " + element['N']); // Skýjahula (%)
-            //timaTexti.innerText = "Tími: " + selectedTimi.getHours();
             timaTexti.innerText = new Date(element.ftime).getHours();
             hitastigsTexti.innerText = `Hitastig: ${element['T']}°C`;
             vindsTexti.innerText = `Vindhraði: ${element['F']}m/s`;
             skyjaTexti.innerText = `Skýjahula: ${element['N']}%`;
+
+            update(timar[new Date(element.ftime).getHours()]);
+            veljaFlik(element['T'], element['F']);
           }
         });
 
@@ -111,11 +173,13 @@ async function getVedurData(dagsetning) {
             console.log("Hitastig: " + element['T']); // Hitastig (°C)
             console.log("Vindhraði: " + element['F']); // Vindhraði (m/s)
             console.log("Skýjahula: " + element['N']); // Skýjahula (%)
-            //timaTexti.innerText = "Tími: " + selectedTimi.getHours();
             timaTexti.innerText = new Date(element.ftime).getHours();
             hitastigsTexti.innerText = `Hitastig: ${element['T']}°C`;
             vindsTexti.innerText = `Vindhraði: ${element['F']}m/s`;
             skyjaTexti.innerText = `Skýjahula: ${element['N']}%`;
+
+            update(timar[new Date(element.ftime).getHours()]);
+            veljaFlik(element['T'], element['F']);
           }
         });
       }
@@ -124,19 +188,15 @@ async function getVedurData(dagsetning) {
 }
 getVedurData(selectedTimi);
 
-/*setTimeout(function() {
-  console.log("Delayed message after 5000 milliseconds");
-}, 5000);
-
-getVedurData();*/
-
 
 // ----- Touch -----
 let xDown = null;
 let yDown = null;
 
-timaTexti.addEventListener('touchstart', handleTouchStart, false);
-timaTexti.addEventListener('touchmove', handleTouchMove, false);
+const timaRammi = document.getElementById("timaRammi");
+
+timaRammi.addEventListener('touchstart', handleTouchStart, false);
+timaRammi.addEventListener('touchmove', handleTouchMove, false);
 
 function handleTouchStart(evt) {
   const firstTouch = evt.touches[0];
@@ -193,6 +253,7 @@ rayArray.forEach((ray, index) => {
   ray.style.transform = `translate(${x}px, ${y}px) rotate(${angle+90}deg)`;
   if (stor) {
     ray.style.background = "yellow";
+    ray.style.boxShadow = "0px 0px 9px 4px #ffffff";
     stor = false;
   } else {
     stor = true;
@@ -200,7 +261,7 @@ rayArray.forEach((ray, index) => {
   i++;
 });
 
-/*anime({
+anime({
   targets: ".ray",
   //rotateZ: 360,
   keyframes: [
@@ -222,12 +283,12 @@ rayArray.forEach((ray, index) => {
   loop: true
 })
 anime({
-  targets: ".rays",
+  targets: "#rays",
   rotate: 360,
   duration: 40000,
   easing: "linear",
   loop: true
-})*/
+})
 // ----- Sól -----
 
 
