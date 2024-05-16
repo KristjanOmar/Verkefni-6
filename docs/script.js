@@ -106,24 +106,31 @@ function update(klukkan) {
   document.getElementById('mani').style.transform = `translateY(${klukkan["manaStada"]}vw)`;
 }
 
+const flik = document.getElementById('flik');
 const flikLysing = document.getElementById('flikLysing');
 
 function veljaFlik(hitastig, vindhradi) {
   if (hitastig < -5) {
+    flik.style.backgroundImage = "url(./flikur/dunulpa.png)";
     flikLysing.innerText = "Ískalt: Dúnúlpa, trefill, vettlingar/hanskar, húfa";
   } else if (hitastig < 4) {
     if (vindhradi > 20) {
+      flik.style.backgroundImage = "url(./flikur/ulpa.png)";
       flikLysing.innerText = "Kalt og mikið rok: Úlpa, trefill, vettlingar/hanskar";
     } else {
+      flik.style.backgroundImage = "url(./flikur/ulpa.png)";
       flikLysing.innerText = "Kalt: Úlpa";
     }
   } else if (hitastig < 9) {
     if (vindhradi > 20) {
+      flik.style.backgroundImage = "url(./flikur/lettur_jakki.png)";
       flikLysing.innerText = "Rok: Léttur jakki";
     } else {
+      flik.style.backgroundImage = "url(./flikur/lettur_jakki.png)";
       flikLysing.innerText = "Svalt: Léttur jakki eða peysa";
     }
   } else {
+    flik.style.backgroundImage = "url(./flikur/peysa.png)";
     flikLysing.innerText = "Hlýtt: Léttur jakki eða peysa/bolur";
   }
 }
@@ -158,9 +165,9 @@ async function getVedurData(dagsetning) {
             console.log("Vindhraði: " + element['F']); // Vindhraði (m/s)
             console.log("Skýjahula: " + element['N']); // Skýjahula (%)
             timaTexti.innerText = new Date(element.ftime).getHours();
-            hitastigsTexti.innerText = `Hitastig: ${element['T']}°C`;
+            /*hitastigsTexti.innerText = `Hitastig: ${element['T']}°C`;
             vindsTexti.innerText = `Vindhraði: ${element['F']}m/s`;
-            skyjaTexti.innerText = `Skýjahula: ${element['N']}%`;
+            skyjaTexti.innerText = `Skýjahula: ${element['N']}%`;*/
 
             update(timar[new Date(element.ftime).getHours()]);
             veljaFlik(element['T'], element['F']);
@@ -174,9 +181,9 @@ async function getVedurData(dagsetning) {
             console.log("Vindhraði: " + element['F']); // Vindhraði (m/s)
             console.log("Skýjahula: " + element['N']); // Skýjahula (%)
             timaTexti.innerText = new Date(element.ftime).getHours();
-            hitastigsTexti.innerText = `Hitastig: ${element['T']}°C`;
+            /*hitastigsTexti.innerText = `Hitastig: ${element['T']}°C`;
             vindsTexti.innerText = `Vindhraði: ${element['F']}m/s`;
-            skyjaTexti.innerText = `Skýjahula: ${element['N']}%`;
+            skyjaTexti.innerText = `Skýjahula: ${element['N']}%`;*/
 
             update(timar[new Date(element.ftime).getHours()]);
             veljaFlik(element['T'], element['F']);
